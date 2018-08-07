@@ -8,19 +8,24 @@ const saveProduct = (product) => {
     // Save the product to the API
     DataManager.saveProduct(product)
     .then(() => {
-        renderProductList()
+        renderProductList("#container", product.type)
     })
 }
 
 renderNavBar().then(html => {
     document.querySelector("#navigation").innerHTML = html
     document.querySelector("#navbar").addEventListener("click", event => {
-        const typeClickedOn = parseInt(event.target.id.split("--")[1])
-        renderProductList(typeClickedOn)
+        const linkId = event.target.id.split("--")[1]
+        if (!linkId) {
+            renderForm("#container", saveProduct)
+        } else {
+            const typeClickedOn = parseInt(linkId)
+            renderProductList("#container", typeClickedOn)
+        }
+
     })
 })
-// renderProductList()
-renderForm("#container", saveProduct)
+renderProductList("#container")
 
 
 
